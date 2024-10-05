@@ -10,7 +10,7 @@ $system_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'system';
 $application_folder = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'application';
 
 if (realpath($system_path) !== false) {
-    $system_path = realpath($system_path) . '/';  
+    $system_path = realpath($system_path) . '/';
 } 
 
 $system_path = rtrim($system_path, '/') . '/';
