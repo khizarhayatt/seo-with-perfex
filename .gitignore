@@ -1,0 +1,36 @@
+# Perfex CRM core files
+/application/config/config.php
+/application/config/database.php
+/application/config/email.php
+/application/config/routes.php
+
+# Storage, cache, and logs
+/application/cache/*
+/application/logs/*  
+
+# File uploads
+/uploads/*
+
+# Env files
+.env
+.env.example
+
+# Composer dependencies
+/application/vendor/*
+/application/composer.lock
+
+# IDE config files
+*.sublime-project
+*.sublime-workspace
+.idea/
+*.iml
+*.vscode/
+  
+
+# Backup files
+*.bak
+*.old
+*.sql
+ 
+# Ignore modules (optional)
+/modules/* 
