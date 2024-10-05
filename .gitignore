@@ -1,6 +1,6 @@
 # Perfex CRM core files
 /application/config/app-config.php 
-
+/webhooks/*
 # Storage, cache, and logs
 /application/cache/*
 /application/logs/*  
