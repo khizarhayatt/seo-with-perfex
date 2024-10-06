@@ -200,9 +200,10 @@ return App_table::find('leads')
 
             $row[] = ($aRow['phonenumber'] != '' ? '<a href="tel:' . e($aRow['phonenumber']) . '">' . e($aRow['phonenumber']) . '</a>' : '');
 
-            $base_currency = get_base_currency();
-            $row[]         = e(($aRow['lead_value'] != 0 ? app_format_money($aRow['lead_value'], $base_currency->id) : ''));
-
+            // $base_currency = get_base_currency();
+            // $row[]         = e(($aRow['lead_value'] != 0 ? app_format_money($aRow['lead_value'], $base_currency->id) : ''));
+            $row[]         =   get_lead_report_status($aRow['id'] ) ?? '-' ;
+            
             $row[] .= render_tags($aRow['tags']);
 
             $assignedOutput = '';

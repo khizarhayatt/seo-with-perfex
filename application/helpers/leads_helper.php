@@ -2,16 +2,17 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+//use Spatie\Lighthouse\Lighthouse;
 hooks()->add_action('app_admin_head', 'leads_app_admin_head_data');
 
 function leads_app_admin_head_data()
 {
-    ?>
+?>
     <script>
         var leadUniqueValidationFields = <?php echo json_decode(json_encode(get_option('lead_unique_validation'))); ?>;
         var leadAttachmentsDropzone;
     </script>
-    <?php
+<?php
 }
 
 /**
@@ -102,7 +103,7 @@ function get_leads_summary()
         'color' => '#fc2d42',
     ];
 
-/*    $statuses[] = [
+    /*    $statuses[] = [
         'junk'  => true,
         'name'  => _l('junk_leads'),
         'color' => '',
@@ -208,7 +209,7 @@ function render_leads_source_select($sources, $selected = '', $lang_key = '', $n
  */
 function load_lead_language($lead_id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->where('id', $lead_id);
     $lead = $CI->db->get(db_prefix() . 'leads')->row();
 
@@ -232,3 +233,74 @@ function load_lead_language($lead_id)
 
     return true;
 }
+
+
+function get_lead_report_status($lead_id = '')
+{
+    if (empty($lead_id)) {
+        return '';
+    }
+
+    $CI = &get_instance(); 
+    $CI->db->where('lead_id', $lead_id);
+    $report = $CI->db->select('report_status')->from(db_prefix() . 'lead_seo_reports')->get()->row();
+
+    if ($report) {
+        $report_status = $report->report_status;
+    } 
+    
+    return $report_status ? ucfirst($report_status) : '';
+}
+function get_lead_report_url($lead_id = '')
+{
+    if (empty($lead_id)) {
+        return '';
+    }
+
+    $CI = &get_instance(); 
+    $CI->db->where('lead_id', $lead_id);
+    $report = $CI->db->select('report_path')->from(db_prefix() . 'lead_seo_reports')->get()->row();
+
+    if ($report) {
+        $report_path = $report->report_path;
+    } 
+    
+    return $report_path ?  $report_path : '';
+}
+function get_lead_audited_url($lead_id = '')
+{
+    if (empty($lead_id)) {
+        return '';
+    }
+
+    $CI = &get_instance(); 
+    $CI->db->where('lead_id', $lead_id);
+    $report = $CI->db->select('audited_url')->from(db_prefix() . 'lead_seo_reports')->get()->row();
+
+    if ($report) {
+        $audited_url = $report->audited_url;
+    } 
+    
+    return $audited_url ?  $audited_url : '';
+}
+
+function get_lead_with_empty_report_status() {
+    $CI = &get_instance(); // Get the CI instance
+
+    // Query to fetch lead and associated report data
+    $CI->db->select('leads.*, lead_seo_reports.*');
+    $CI->db->from('leads');
+    $CI->db->join('lead_seo_reports', 'lead_seo_reports.lead_id = leads.id', 'left');
+    $CI->db->where('lead_seo_reports.report_status IS NULL OR lead_seo_reports.report_status = ""');
+
+    $CI->db->order_by('leads.dateadded', 'ASC');
+    $CI->db->limit(1);
+
+    // Execute the query and fetch the result
+    $result = $CI->db->get()->row();
+
+    return $result ? $result : null; // Return the lead and report data or null
+}
+ 
+ 
+ 
