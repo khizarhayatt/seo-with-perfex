@@ -13,7 +13,7 @@
     }
     echo '#' . $lead->id . ' - ' . $name;
 } else {
-    echo _l('add_new', _l('lead_lowercase'));
+    echo _l('add_new', _l('lead_lowercase')); 
 }
 
 if (isset($lead)) {
